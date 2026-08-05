@@ -871,10 +871,10 @@ function FormsPage() {
 
 <div className="d-flex justify-content-between mt-5">
 
-    <Link to="/" className="back-btn">
-        <i className="bi bi-arrow-left me-2"></i>
-        Back
-    </Link>
+    <a href="/" className="back-btn">
+    <i className="bi bi-arrow-left me-2"></i>
+    Back
+</a>
 
 
     <button type="submit" className="next-btn">
