@@ -1,10 +1,77 @@
-
 import { Link } from "react-router-dom";
-
+import { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 function FormsPage() {
+        useEffect(() => {
+
+        const savedData = JSON.parse(
+            sessionStorage.getItem("atafoOrder")
+        ) || {};
+
+        Object.keys(savedData).forEach((key) => {
+
+            const field = document.getElementById(key);
+
+            if (field) {
+                field.value = savedData[key];
+            }
+
+        });
+
+    }, []);
+        useEffect(() => {
+
+        const saveData = () => {
+
+            const fields = document.querySelectorAll(
+                "input, select, textarea"
+            );
+
+            const formData = {};
+
+            fields.forEach((field) => {
+
+                if (field.id) {
+                    formData[field.id] = field.value;
+                }
+
+            });
+
+            const existingData = JSON.parse(
+                sessionStorage.getItem("atafoOrder")
+            ) || {};
+
+            sessionStorage.setItem(
+                "atafoOrder",
+                JSON.stringify({
+                    ...existingData,
+                    ...formData
+                })
+            );
+
+        };
+
+        const fields = document.querySelectorAll(
+            "input, select, textarea"
+        );
+
+        fields.forEach((field) => {
+            field.addEventListener("input", saveData);
+            field.addEventListener("change", saveData);
+        });
+
+        return () => {
+
+            fields.forEach((field) => {
+                field.removeEventListener("input", saveData);
+                field.removeEventListener("change", saveData);
+            });
+
+        };
+
+    }, []);
 
     const handleSubmit = (e) => {
 
@@ -17,11 +84,11 @@ function FormsPage() {
         const formData = {};
 
         fields.forEach((field) => {
+            if (!field.id) return;
 
-            if (field.id) {
+            if (field.value !== "") {
                 formData[field.id] = field.value;
             }
-
         });
 
         const existingData = JSON.parse(
@@ -38,11 +105,15 @@ function FormsPage() {
             JSON.stringify(finalData)
         );
 
-        alert("Order details saved successfully");
-
         console.log(finalData);
 
+        alert("Order details saved successfully");
+
     };
+
+    
+
+
 
 
     return (
