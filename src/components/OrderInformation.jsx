@@ -1,47 +1,79 @@
+import { useEffect } from "react";
 import useFormStorage from "../hooks/useFormStorage";
 
 function OrderInformation() {
 
     const [orderNumber, setOrderNumber] = useFormStorage("orderNumber");
 
+    // Load saved data when page opens
+    useEffect(() => {
 
-    const saveAndContinue = () => {
+        const savedData = JSON.parse(
+            sessionStorage.getItem("atafoOrder")
+        ) || {};
+
+        Object.keys(savedData).forEach((key) => {
+
+            const field = document.getElementById(key);
+
+            if (field && key !== "orderNumber") {
+                field.value = savedData[key];
+            }
+
+        });
+
+    }, []);
+
+    // Automatically save whenever the user types
+    useEffect(() => {
+
+        const saveData = () => {
+
+            const fields = document.querySelectorAll(
+                "input, select, textarea"
+            );
+
+            const orderData = {};
+
+            fields.forEach((field) => {
+
+                if (field.id) {
+                    orderData[field.id] = field.value;
+                }
+
+            });
+
+            const existingData = JSON.parse(
+                sessionStorage.getItem("atafoOrder")
+            ) || {};
+
+            sessionStorage.setItem(
+                "atafoOrder",
+                JSON.stringify({
+                    ...existingData,
+                    ...orderData
+                })
+            );
+
+        };
 
         const fields = document.querySelectorAll(
             "input, select, textarea"
         );
 
-
-        const orderData = {};
-
-
         fields.forEach((field) => {
-
-            if(field.id){
-                orderData[field.id] = field.value;
-            }
-
+            field.addEventListener("input", saveData);
         });
 
+        return () => {
 
-        const existingData = JSON.parse(
-            sessionStorage.getItem("atafoOrder")
-        ) || {};
+            fields.forEach((field) => {
+                field.removeEventListener("input", saveData);
+            });
 
+        };
 
-        sessionStorage.setItem(
-            "atafoOrder",
-            JSON.stringify({
-                ...existingData,
-                ...orderData
-            })
-        );
-
-
-        window.location.href = "/measurements";
-
-    };
-
+    }, []);
 
     return (
 
@@ -53,9 +85,7 @@ function OrderInformation() {
                     Order Information
                 </h3>
 
-
                 <div className="row g-3">
-
 
                     <div className="col-md-6">
 
@@ -67,12 +97,10 @@ function OrderInformation() {
                             id="orderNumber"
                             className="form-control"
                             value={orderNumber}
-                            onChange={(e)=>setOrderNumber(e.target.value)}
+                            onChange={(e) => setOrderNumber(e.target.value)}
                         />
 
                     </div>
-
-
 
                     <div className="col-md-6">
 
@@ -88,8 +116,6 @@ function OrderInformation() {
 
                     </div>
 
-
-
                     <div className="col-md-6">
 
                         <label className="form-label">
@@ -102,8 +128,6 @@ function OrderInformation() {
                         />
 
                     </div>
-
-
 
                     <div className="col-md-6">
 
@@ -119,8 +143,6 @@ function OrderInformation() {
 
                     </div>
 
-
-
                     <div className="col-md-6">
 
                         <label className="form-label">
@@ -134,8 +156,6 @@ function OrderInformation() {
 
                     </div>
 
-
-
                     <div className="col-md-3">
 
                         <label className="form-label">
@@ -148,8 +168,6 @@ function OrderInformation() {
                         />
 
                     </div>
-
-
 
                     <div className="col-md-3">
 
@@ -165,8 +183,6 @@ function OrderInformation() {
 
                     </div>
 
-
-
                     <div className="col-md-4">
 
                         <label className="form-label">
@@ -179,8 +195,6 @@ function OrderInformation() {
                         />
 
                     </div>
-
-
 
                     <div className="col-md-4">
 
@@ -195,8 +209,6 @@ function OrderInformation() {
 
                     </div>
 
-
-
                     <div className="col-md-4">
 
                         <label className="form-label">
@@ -210,16 +222,7 @@ function OrderInformation() {
 
                     </div>
 
-
                 </div>
-
-
-
-                <div className="d-flex justify-content-end mt-5">
-
-               
-                </div>
-
 
             </div>
 
@@ -228,6 +231,5 @@ function OrderInformation() {
     );
 
 }
-
 
 export default OrderInformation;
