@@ -1,0 +1,135 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* ================================
+   MEASUREMENT MENU
+================================ */
+
+.measurement-menu-card {
+    width: 100%;
+    max-width: 100%;
+    background: #f7f5f0;
+    border: 1px solid #e3d8c5;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+
+/* Menu button */
+
+.measurement-menu-button {
+    width: 100%;
+    min-height: 75px;
+    padding: 18px 24px;
+    border: none;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+
+/* Burnt orange menu text */
+
+.measurement-menu-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #b4512c;
+    font-size: 21px;
+    font-weight: 700;
+    text-align: left;
+}
+
+
+/* Ruler icon */
+
+.measurement-menu-title i {
+    font-size: 24px;
+}
+
+
+/* Plus / minus */
+
+.measurement-toggle {
+    color: #b4512c;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1;
+    transition: color 0.25s ease;
+}
+
+
+/* Gold hover */
+
+.measurement-menu-button:hover {
+    background: #c6a66a;
+}
+
+.measurement-menu-button:hover .measurement-menu-title,
+.measurement-menu-button:hover .measurement-toggle {
+    color: #ffffff;
+}
+
+
+/* Open section */
+
+.measurement-dropdown {
+    padding: 24px;
+    background: #ffffff;
+    border-top: 1px solid #e3d8c5;
+}
+
+
+/* Labels */
+
+.measurement-dropdown .form-label {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+
+/* Inputs */
+
+.measurement-dropdown .form-control {
+    min-height: 45px;
+}
+
+
+/* Mobile */
+
+@media (max-width: 767px) {
+
+    .measurement-menu-button {
+        min-height: 70px;
+        padding: 16px 18px;
+    }
+
+    .measurement-menu-title {
+        font-size: 19px;
+    }
+
+    .measurement-menu-title i {
+        font-size: 22px;
+    }
+
+    .measurement-toggle {
+        font-size: 30px;
+    }
+
+    .measurement-dropdown {
+        padding: 18px;
+    }
+
+}
